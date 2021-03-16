@@ -24,12 +24,23 @@ class Model {
         // mendapatkan URL_sesion dari object
         let session = URLSession.shared
         
-         // session ibaratnya manager :untuk mengatur transfer
+        // session ibaratnya manager :untuk mengatur transfer
         let dataTask = session.dataTask(with: url!) { (data, response, error)  in
-        // cek kalo ada error
-        if error != nil || data == nil {
-            return
-        }
+            // cek kalo ada error
+            if error != nil || data == nil {
+                return
+            }
+            
+            do {
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .iso8601
+                
+                let response = try decoder.decode(Response.self, from: data!)
+                dump(response)
+            }
+            catch {
+                
+            }
             
         }
         // mulai bekerja
